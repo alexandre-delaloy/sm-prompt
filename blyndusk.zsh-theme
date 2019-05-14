@@ -5,8 +5,8 @@ RPROMPT='%? - %F{magenta}%D%F{yellow}/%F{magenta}%T%F{default}'
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%F{magenta}git:%F{default}"
 ZSH_THEME_GIT_PROMPT_SUFFIX=""
-ZSH_THEME_GIT_PROMPT_DIRTY=" %F{red}◇%F{default}"
-ZSH_THEME_GIT_PROMPT_CLEAN=" %F{green}◆%F{default}"
+ZSH_THEME_GIT_PROMPT_DIRTY=" %F{red}✘%F{default}"
+ZSH_THEME_GIT_PROMPT_CLEAN=" %F{green}✔︎%F{default}"
 
 ZSH_THEME_GIT_PROMPT_ADDED="%F{green}●%F{default} "
 ZSH_THEME_GIT_PROMPT_MODIFIED="%F{yellow}◎%F{default} "
