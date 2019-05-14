@@ -1,2 +1,3 @@
-# blyndusk-terminal-theme
-a custom ZSH theme
+# sm-theme
+
+⛓ a Simplist & Minimalist theme for your favorite terminal
