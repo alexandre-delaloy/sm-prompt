@@ -4,7 +4,7 @@
   "description": "a Simplist & Minimalist theme for your favorite terminal",
   "main": "index.js",
   "scripts": {
-    "build": "cp sm-theme.zsh ~",
+    "build": "cp sm.zsh-theme ~",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
