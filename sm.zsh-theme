@@ -5,8 +5,12 @@
 # 2 : username & machine hostname + git prompt
 # 3 : username & machine hostname + current working directory + git prompt
 
-
-
+echo -e "
+  \e[31m╔═════╦══╤══╗
+  ║ ────╢  │  ║
+  ╟──── ║ │ │ ║ 
+  ╚═════╩═╧═╧═╝ theme, a \e[0;1mSimplist\e[0;31m & \e[0;1mMinimalist\e[0;31m theme.
+"
 
 
 local RETURN_CODE="%(?..%F{red}%? - )%F{default}";
@@ -30,7 +34,7 @@ local SM_PROMPT_TEMPLATE=(
 '
     '$SM_MIDFIX $SM_DIR
 '
-    '$SM_SUFFIX'
+    '$SM_SUFFIX $vcs_info'
 )
 
 for i in "${SM_PROMPT_TEMPLATE[@]}" ; do SM_FINAL_PROMPT+="$i" ; done ;
