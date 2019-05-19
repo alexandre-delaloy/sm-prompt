@@ -5,12 +5,12 @@
 # 2 : username & machine hostname + git prompt
 # 3 : username & machine hostname + current working directory + git prompt
 
-echo -e "
-  \e[31m╔═════╦══╤══╗
+echo -e "\e[31m
+  ╔═════╦══╤══╗
   ║ ────╢  │  ║
   ╟──── ║ │ │ ║ 
   ╚═════╩═╧═╧═╝ theme, a \e[0;1mSimplist\e[0;31m & \e[0;1mMinimalist\e[0;31m theme.
-"
+\e[0m"
 
 
 local RETURN_CODE="%(?..%F{red}%? - )%F{default}";
@@ -45,8 +45,8 @@ RPROMPT="$SM_CLOCK";
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%F{magenta}git:%F{default}";
 ZSH_THEME_GIT_PROMPT_SUFFIX="";
-ZSH_THEME_GIT_PROMPT_DIRTY=" %F{red}✘%F{default}";
-ZSH_THEME_GIT_PROMPT_CLEAN=" %F{green}✔︎%F{default}";
+ZSH_THEME_GIT_PROMPT_DIRTY=" %F{red}[è_é]%F{default}";
+ZSH_THEME_GIT_PROMPT_CLEAN=" %F{green}✔[^_^]%F{default}";
 
 ZSH_THEME_GIT_PROMPT_ADDED="%F{green}●%F{default} ";
 ZSH_THEME_GIT_PROMPT_MODIFIED="%F{yellow}◎%F{default} ";
