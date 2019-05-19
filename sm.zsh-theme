@@ -24,31 +24,33 @@ sudo_color() {
     else echo "blue" ; fi
 }
 
-ZSH_THEME_GIT_PROMPT_PREFIX="%F{magenta}git:%F{default}";
-ZSH_THEME_GIT_PROMPT_SUFFIX="";
-ZSH_THEME_GIT_PROMPT_DIRTY=$(pictos_or_emojis 1 0);
-ZSH_THEME_GIT_PROMPT_CLEAN=$(pictos_or_emojis 1 1);
 
-ZSH_THEME_GIT_PROMPT_ADDED="%F{green}●%F{default} ";
-ZSH_THEME_GIT_PROMPT_MODIFIED="%F{yellow}◎%F{default} ";
-ZSH_THEME_GIT_PROMPT_DELETED="%F{red}○%F{default} ";
-ZSH_THEME_GIT_PROMPT_RENAMED="%F{blue}‣%F{default} ";
-ZSH_THEME_GIT_PROMPT_UNTRACKED="%F{magenta}✦%F{default} ";
-ZSH_THEME_GIT_PROMPT_UNMERGED="%F{magenta}✖%F{default} ";
 
+# custom my prompt
 local return_code="%(?..%F{red}%? - )%F{default}";
-
 local SM_PREFIX="%F{yellow}╭─";
 local SM_MIDFIX="%F{yellow}├─";
 local SM_SUFFIX="%F{yellow}╰──→%F{default} ";
-
 local SM_USER="%F{$(sudo_color)}%n%F{yellow}@%F{cyan}%m";
 local SM_GIT="$(git_prompt_info) $(git_prompt_status)%F{default}";
 local SM_DIR="%F{magenta}%~%F{default}";
 local SM_CLOCK="${return_code}%F{cyan}%D%F{yellow} / %F{blue}%T%F{default}";
 
 
-PROMPT="$SM_PREFIX $SM_USER $SM_GIT
+# update vcs values
+ZSH_THEME_GIT_PROMPT_PREFIX="%F{magenta}git:%F{default}";
+ZSH_THEME_GIT_PROMPT_SUFFIX="";
+ZSH_THEME_GIT_PROMPT_DIRTY=$(pictos_or_emojis 1 0);
+ZSH_THEME_GIT_PROMPT_CLEAN=$(pictos_or_emojis 1 1);
+ZSH_THEME_GIT_PROMPT_ADDED="%F{green}●%F{default} ";
+ZSH_THEME_GIT_PROMPT_MODIFIED="%F{yellow}◎%F{default} ";
+ZSH_THEME_GIT_PROMPT_DELETED="%F{red}○%F{default} ";
+ZSH_THEME_GIT_PROMPT_RENAMED="%F{blue}‣%F{default} ";
+ZSH_THEME_GIT_PROMPT_UNTRACKED="%F{magenta}✦%F{default} ";
+ZSH_THEME_GIT_PROMPT_UNMERGED="%F{magenta}✖%F{default} ";
+# set new prompt
+PROMPT="$SM_PREFIX $SM_USER $(git_prompt_info) $(git_prompt_status)%F{default}
 $SM_MIDFIX $SM_DIR
 $SM_SUFFIX";
 RPROMPT="$SM_CLOCK";
+
