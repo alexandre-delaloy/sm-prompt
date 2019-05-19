@@ -57,7 +57,7 @@
 
 ### 2. Lines
 
-#### With two lines
+#### With 2 lines
 
 ```bash
 16    local SM_PROMPT_LINES=2;
@@ -65,7 +65,7 @@
 
 ![2 lines](./docs/2-lines.png)
 
-#### With three lines
+#### With 3 lines
 
 ```bash
 16    local SM_PROMPT_LINES=3;
