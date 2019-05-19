@@ -10,10 +10,10 @@ echo -e "\e[31m
 # config
 
 # 1: with smileys ; 0: without smileys
-local with_smileys=1;
+local with_smileys=0;
 
 # 2: with 2 lines ; else: default
-local prompt_lines=2
+local prompt_lines=3
 
 # write 
 #   $(pictos_or_smileys 1 <0/1>) to use emojis
