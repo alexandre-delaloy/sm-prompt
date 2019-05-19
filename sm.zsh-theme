@@ -10,7 +10,7 @@ echo -e "\e[31m
 # config
 
 # 1: with smileys ; 0: without smileys
-local with_smileys=0;
+local with_smileys=1;
 
 # 2: with 2 lines ; else: default
 local prompt_lines=3
