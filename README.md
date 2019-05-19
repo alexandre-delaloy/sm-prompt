@@ -4,7 +4,7 @@
 <img src="https://img.shields.io/github/languages/top/blyndusk/sm-theme.svg" alt="sm-theme top language"/>
 <a href="https://github.com/blyndusk/sm-theme/blob/master/LICENSE"><img src="https://img.shields.io/github/license/blyndusk/sm-theme.svg"/></a>
 
-![sm-theme](./sm-theme.png)
+![sm-theme](./docs/sm-theme.png)
 
 
 ⛓ a **Simplist** & **Minimalist** theme for your **favorite** terminal.
@@ -28,6 +28,44 @@
 23
 24    # Set list of themes to pick from when loading at random
 ```
+
+## Custom
+
+> By default, smileys are enabled & there are 3 lines
+
+### 1. Smileys
+
+#### Without smileys
+
+```bash
+13    local with_smileys=0;
+```
+
+![with-smileys](./docs/without-smileys.png)
+
+#### With smileys
+
+```bash
+13    local with_smileys=1;
+```
+
+![with-smileys](./docs/default.png)
+
+### 2. Lines
+
+#### With two lines
+
+```bash
+16    local prompt_lines=2;
+```
+![with-smileys](./docs/2-lines.png)
+
+#### With three lines
+
+```bash
+16    local prompt_lines=3;
+```
+![with-smileys](./docs/default.png)
 
 ## Curated List
 
