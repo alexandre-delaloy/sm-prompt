@@ -10,10 +10,10 @@ echo -e "\e[31m
 # config
 
 # 1: with smileys ; 0: without smileys
-local with_smileys=1;
+local SM_WITH_SMILEYS=1;
 
 # 2: with 2 lines ; else: default
-local prompt_lines=3
+local SM_PROMPT_LINES=3;
 
 # write 
 #   $(pictos_or_smileys 1 <0/1>) to use emojis
@@ -21,8 +21,8 @@ local prompt_lines=3
 pictos_or_smileys () {
     local emojis;
     local emojis=(" ✘" "[ಠ_ಠ]" " ✔︎" "[･‿･]");
-    if [ "$1" -eq 0 ] ; then echo "%F{red}${emojis[1 + $with_smileys]}%F{default}" ;
-    elif [ "$1" -eq 1 ] ; then echo "%F{green}${emojis[3 + $with_smileys]}%F{default}" ; fi
+    if [ "$1" -eq 0 ] ; then echo "%F{red}${emojis[1 + $SM_WITH_SMILEYS]}%F{default}" ;
+    elif [ "$1" -eq 1 ] ; then echo "%F{green}${emojis[3 + $SM_WITH_SMILEYS]}%F{default}" ; fi
 }
 
 # display red user if sudo is enabeled
@@ -32,7 +32,7 @@ sudo_color() {
 }
 
 sm_prompt() {
-    if [ $prompt_lines -eq 2 ] ; then
+    if [ $SM_PROMPT_LINES -eq 2 ] ; then
         echo '$SM_PREFIX $SM_USER $SM_DIR $(git_prompt_info) $(git_prompt_status)
 $SM_SUFFIX' 
     else echo '$SM_PREFIX $SM_USER $(git_prompt_info) $(git_prompt_status)
