@@ -1,6 +1,6 @@
 # sm-theme
 
-<a href="https://github.com/blyndusk/sm-theme/releases/latest"><img src="https://img.shields.io/github/release/blyndusk/sm-theme.svg" alt="sm-theme last release"/></a>
+<a href="https://github.com/blyndusk/sm-theme/releases/latest"><img src="https://img.shields.io/github/release/blyndusk/sm-theme.svg?color=orange" alt="sm-theme last release"/></a>
 <img src="https://img.shields.io/github/languages/top/blyndusk/sm-theme.svg" alt="sm-theme top language"/>
 <a href="https://github.com/blyndusk/sm-theme/blob/master/LICENSE" alt="sm license"><img src="https://img.shields.io/github/license/blyndusk/sm-theme.svg"/></a>
 
