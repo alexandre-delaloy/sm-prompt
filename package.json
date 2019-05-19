@@ -1,0 +1,31 @@
+{
+    "name": "sm-theme",
+    "version": "0.2.0",
+    "description": "a Simplist & Minimalist theme for your favorite terminal",
+    "scripts": {
+      "build": "source install.sh",
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/blyndusk/sm-theme.git"
+    },
+    "keywords": [
+        "zsh",
+        "bash",
+        "oh-my-zsh",
+        "theme",
+        "simplist",
+        "minimalist"
+    ],
+    "author": {
+        "name": "Alexandre Delaloy",
+        "email": "alexandredlaloydev@gmail.com",
+        "url": "https://a-dll.com"
+    },
+    "license": "MIT",
+    "bugs": {
+      "url": "https://github.com/blyndusk/sm-theme/issues"
+    },
+    "homepage": "https://github.com/blyndusk/sm-theme#readme"
+}
