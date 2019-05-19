@@ -12,7 +12,8 @@ echo -e "\e[31m
 # 1: with smileys ; 0: without smileys
 local with_smileys=1;
 
-local lines=3
+# 2: with 2 lines ; else: default
+local prompt_lines=2
 
 # write 
 #   $(pictos_or_smileys 1 <0/1>) to use emojis
@@ -31,7 +32,7 @@ sudo_color() {
 }
 
 sm_prompt() {
-    if [ $lines -eq 2 ] ; then
+    if [ $prompt_lines -eq 2 ] ; then
         echo '$SM_PREFIX $SM_USER $SM_DIR $(git_prompt_info) $(git_prompt_status)
 $SM_SUFFIX' 
     else echo '$SM_PREFIX $SM_USER $(git_prompt_info) $(git_prompt_status)
