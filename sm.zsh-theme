@@ -46,7 +46,7 @@ RPROMPT="$SM_CLOCK";
 ZSH_THEME_GIT_PROMPT_PREFIX="%F{magenta}git:%F{default}";
 ZSH_THEME_GIT_PROMPT_SUFFIX="";
 ZSH_THEME_GIT_PROMPT_DIRTY=" %F{red}[ಠ_ಠ]%F{default}";
-ZSH_THEME_GIT_PROMPT_CLEAN=" %F{green}[◕‿◕]%F{default}";
+ZSH_THEME_GIT_PROMPT_CLEAN=" %F{green}[⊙‿⊙]%F{default}";
 
 ZSH_THEME_GIT_PROMPT_ADDED="%F{green}●%F{default} ";
 ZSH_THEME_GIT_PROMPT_MODIFIED="%F{yellow}◎%F{default} ";
