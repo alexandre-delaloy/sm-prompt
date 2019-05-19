@@ -1,19 +1,19 @@
 # sm-theme
 
-<a href="https://github.com/blyndusk/sm-theme/release/latest"><img src="https://img.shields.io/github/release-pre/blyndusk/sm-theme.svg"/></a>
-<img src="https://img.shields.io/github/languages/top/blyndusk/sm-theme.svg" alt="mecss top language"/>
+<a href="https://github.com/blyndusk/sm-theme/releases/latest"><img src="https://img.shields.io/github/release-pre/blyndusk/sm-theme.svg"/></a>
+<img src="https://img.shields.io/github/languages/top/blyndusk/sm-theme.svg" alt="sm-theme top language"/>
 <a href="https://github.com/blyndusk/sm-theme/blob/master/LICENSE"><img src="https://img.shields.io/github/license/blyndusk/sm-theme.svg"/></a>
 
 ![sm-theme](./sm-theme.png)
 
 
-⛓ a Simplist & Minimalist theme for your favorite terminal
+⛓ a **Simplist** & **Minimalist** theme for your **favorite** terminal.
 
 ## Install
 
-### via Oh-My-Zsh
+### 1. via Oh-My-Zsh
 
-1. Install `sm.zsh-theme` in your computer:
+1. Install `sm.zsh-theme` in  `~/.oh-my-zsh` folder:
 
 ```bash
 # at the root of this repository
