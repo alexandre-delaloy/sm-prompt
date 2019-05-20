@@ -1,11 +1,14 @@
 #!/bin/bash
+once=0
 
-echo -e "\e[31m
+if [ $once -ge 0 ] ; then echo -e "\e[31m
   ╔═════╦══╤══╗
   ║ ────╢  │  ║
   ╟──── ║ │ │ ║ 
   ╚═════╩═╧═╧═╝ theme, a \e[0;1mSimplist\e[0;31m & \e[0;1mMinimalist\e[0;31m theme.
-\e[0m"
+\e[0m" ; fi
+
+once=1
 
 # config
 
@@ -31,14 +34,6 @@ sudo_color() {
     else echo "blue" ; fi
 }
 
-sm_prompt() {
-    if [ $SM_PROMPT_LINES -eq 2 ] ; then
-        echo '$SM_PREFIX $SM_USER $SM_DIR $(git_prompt_info) $(git_prompt_status)
-$SM_SUFFIX' 
-    else echo '$SM_PREFIX $SM_USER $(git_prompt_info) $(git_prompt_status)
-$SM_MIDFIX $SM_DIR
-$SM_SUFFIX' ; fi
-}
 
 # custom my prompt
 local return_code="%(?..%F{red}%? - )%F{default}";
@@ -48,6 +43,16 @@ local SM_SUFFIX="%F{yellow}╰──→%F{default} ";
 local SM_USER="%F{$(sudo_color)}%n%F{yellow}@%F{cyan}%m";
 local SM_DIR="%F{magenta}%~%F{default}";
 local SM_CLOCK="${return_code}%F{cyan}%D%F{yellow} / %F{blue}%T%F{default}";
+
+sm_prompt() {
+    if [ $SM_PROMPT_LINES -eq 2 ] ; then
+        echo '$SM_PREFIX $SM_USER $SM_DIR $(git_prompt_info) $(git_prompt_status)
+$SM_SUFFIX' 
+    else echo '$SM_PREFIX $SM_USER $(git_prompt_info) $(git_prompt_status)
+$SM_MIDFIX $SM_DIR
+$SM_SUFFIX' ; fi
+}
+
 
 # set new prompt
 PROMPT=$(sm_prompt)
