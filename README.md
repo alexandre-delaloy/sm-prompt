@@ -6,8 +6,9 @@
 
 ![sm-theme](./docs/sm-theme.png)
 
-
 ⛓ a **Simplist** & **Minimalist** theme for your **favorite** terminal.
+
+> ⚠️ This theme better fit with **Fira Code** font.
 
 ## Install
 
