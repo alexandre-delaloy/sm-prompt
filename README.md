@@ -8,7 +8,7 @@
 
 ⛓ a **Simplist** & **Minimalist** theme for your **favorite** terminal.
 
-> ⚠️ This theme better fit with **Fira Code** font.
+> This theme better fit
 
 ## Install
 
@@ -20,7 +20,7 @@
 
 ```bash
 # at the root of this repository
-> source install.sh
+> source install.sh --zsh
 ```
 
 2. Update `ZSH_THEME` theme in your `.zshrc`
@@ -30,6 +30,13 @@
 22    ZSH_THEME="sm" # probably was ZSH_THEME="robbyrussell (default)
 23
 24    # Set list of themes to pick from when loading at random
+```
+
+### 2. Via bash
+
+```bash
+# at the root of this repository
+> source install.sh --bash
 ```
 
 ## Custom
