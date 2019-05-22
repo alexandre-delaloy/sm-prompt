@@ -1,6 +1,6 @@
 #!/bin/bash
 
-install() {
+install_zsh() {
     if [ -d !~/.oh-my-zsh ] ; then echo -e "\e[31m[ಠ_ಠ]\e[0m It seems that there is no \e[1;34moh-my-zsh\e[0m folder at the root of this user"
     else 
 
@@ -9,4 +9,9 @@ install() {
     fi
 }
 
-install
+install_bash() {
+    echo "install bash"
+}
+
+if [ "$1" = "--zsh" ] ; then install_zsh
+elif [ "$1" = "--bash" ] ; then install_bash ; fi

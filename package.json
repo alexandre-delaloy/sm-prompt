@@ -3,7 +3,8 @@
     "version": "1.0.0",
     "description": "a Simplist & Minimalist theme for your favorite terminal",
     "scripts": {
-      "build": "source install.sh",
+      "build-zsh": "source install.sh --zsh",
+      "build-bash": "source install.sh --bash",
       "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
