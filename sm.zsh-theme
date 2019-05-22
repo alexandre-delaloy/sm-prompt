@@ -24,14 +24,16 @@ sudo_color() {
 }
 
 
+
+
 # custom my prompt
 local return_code="%(?..%F{red}%? - )%F{default}";
 local SM_PREFIX="%F{yellow}╭─";
 local SM_MIDFIX="%F{yellow}├─";
-local SM_SUFFIX="%F{yellow}╰─┤%F{blue}%N%F{yellow}├─→%F{default} ";
+local SM_SUFFIX="%F{yellow}╰──→%F{default} ";
 local SM_USER="%F{$(sudo_color)}%n%F{yellow}@%F{cyan}%m";
 local SM_DIR="%F{magenta}%~%F{default}";
-local SM_CLOCK="${return_code}%F{cyan}%D%F{yellow} / %F{blue}%T%F{default}";
+local SM_CLOCK="${return_code}%F{cyan}%D%F{yellow} / %F{blue}%T%F{default} (%x)";
 
 sm_prompt() {
     if [ $SM_PROMPT_LINES -eq 2 ] ; then

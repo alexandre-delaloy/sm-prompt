@@ -18,4 +18,8 @@ install_bash() {
 clear
 
 if [ "$1" = "--zsh" ] ; then install_zsh
-elif [ "$1" = "--bash" ] ; then install_bash ; fi
+elif [ "$1" = "--bash" ] ; then install_bash
+elif [ "$1" = "--all" ] ; then
+    install_zsh
+    install_bash
+fi

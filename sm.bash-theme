@@ -33,13 +33,12 @@ sudo_color() {
 
 
 # custom my prompt
-return_code="%(?..\e[31m%? - )\e[0m";
 SM_PREFIX="\e[33m╭─";
 SM_MIDFIX="\e[33m├─";
-SM_SUFFIX="\e[33m╰─\e[36m\s\e[33m─→\e[0m ";
+SM_SUFFIX="\e[33m╰──→\e[0m ";
 SM_USER="$(sudo_color)\u\e[33m@\e[36m\h";
 SM_DIR="\e[35m\w\e[0m";
-SM_CLOCK="${return_code}\e[36m\d\e[33m / \e[34m\t\e[0m";
+SM_CLOCK="\e[36m\d\e[33m / \e[34m\t\e[0m \e[33m| \e[0m\s";
 
 sm_prompt() {
     if [ $SM_PROMPT_LINES -eq 2 ] ; then
@@ -50,9 +49,8 @@ $SM_MIDFIX $SM_DIR
 $SM_SUFFIX" ; fi
 }
 
-# set new prompt
-PS1="$(sm_prompt)"
-# RPROMPT="$SM_CLOCK";
+PS1=$(sm_prompt);
+
 
 # update vcs values
 ZSH_THEME_GIT_PROMPT_PREFIX="\e[33m git:\e[0m";
