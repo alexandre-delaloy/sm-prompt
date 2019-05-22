@@ -10,8 +10,12 @@ install_zsh() {
 }
 
 install_bash() {
-    echo "install bash"
+    cp ./sm.bash-theme ~
+    echo "\n\nsource ./sm.bash-theme" >> ~/.bashrc
+    if [ -f ~/sm.bash-theme ]; then echo -e "\e[32m[･‿･]\e[0m Congrats! New\e[1;34m bash theme (sm-theme)\e[0m added !" ; fi
 }
+
+clear
 
 if [ "$1" = "--zsh" ] ; then install_zsh
 elif [ "$1" = "--bash" ] ; then install_bash ; fi
