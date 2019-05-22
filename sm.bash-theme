@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# cl_default = \e[0m;
+# cl_red     = \e[31m;
+# cl_green   = \e[32m
+# cl_yellow  = \e[33m;
+# cl_blue    = \e[34m;
+# cl_magenta = \e[35m;
+# cl_cyan    = \e[36m;
+
+# config
+
+# 1: with smileys ; 0: without smileys
+SM_WITH_SMILEYS=1;
+
+# 2: with 2 lines ; else: default
+SM_PROMPT_LINES=3;
+
+# write 
+#   $(pictos_or_smileys 1 <0/1>) to use emojis
+#   $(pictos_or_smileys 0 <0/1>) to use pictos
+pictos_or_smileys () {
+    emojis=(" ✘" "[ಠ_ಠ]" " ✔︎" "[･‿･]");
+    if [ "$1" -eq 0 ] ; then echo "\e[31m${emojis[1 + $SM_WITH_SMILEYS]}\e[0m" ;
+    elif [ "$1" -eq 1 ] ; then echo "\e[32m${emojis[3 + $SM_WITH_SMILEYS]}\e[0m" ; fi
+}
+
+# display red user if sudo is enabeled
+sudo_color() {
+    if [ "$UID" -eq 0 ] ; then echo "\e[31m" ; 
+    else echo "\e[34m" ; fi
+}
+
+
+# custom my prompt
+return_code="%(?..\e[31m%? - )\e[0m";
+SM_PREFIX="\e[33m╭─";
+SM_MIDFIX="\e[33m├─";
+SM_SUFFIX="\e[33m╰─\e[36m\s\e[33m─→\e[0m ";
+SM_USER="$(sudo_color)\u\e[33m@\e[36m\h";
+SM_DIR="\e[35m\w\e[0m";
+SM_CLOCK="${return_code}\e[36m\d\e[33m / \e[34m\t\e[0m";
+
+sm_prompt() {
+    if [ $SM_PROMPT_LINES -eq 2 ] ; then
+        echo -e "$SM_PREFIX $SM_USER $SM_DIR 
+$SM_SUFFIX"
+    else echo -e "$SM_PREFIX $SM_USER 
+$SM_MIDFIX $SM_DIR
+$SM_SUFFIX" ; fi
+}
+
+# set new prompt
+PS1="$(sm_prompt)"
+# RPROMPT="$SM_CLOCK";
+
+# update vcs values
+ZSH_THEME_GIT_PROMPT_PREFIX="\e[33m git:\e[0m";
+ZSH_THEME_GIT_PROMPT_SUFFIX="";
+ZSH_THEME_GIT_PROMPT_DIRTY=$(pictos_or_smileys 0);
+ZSH_THEME_GIT_PROMPT_CLEAN=$(pictos_or_smileys 1);
+ZSH_THEME_GIT_PROMPT_ADDED="\e[32m●\e[0m ";
+ZSH_THEME_GIT_PROMPT_MODIFIED="\e[33m◎\e[0m ";
+ZSH_THEME_GIT_PROMPT_DELETED="\e[31m○\e[0m ";
+ZSH_THEME_GIT_PROMPT_RENAMED="$cl_blue‣\e[0m ";
+ZSH_THEME_GIT_PROMPT_UNTRACKED="$cl_magenta✦\e[0m ";
+ZSH_THEME_GIT_PROMPT_UNMERGED="$cl_magenta✖\e[0m ";

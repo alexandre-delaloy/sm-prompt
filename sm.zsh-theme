@@ -1,14 +1,4 @@
 #!/bin/bash
-once=0
-
-if [ $once -ge 0 ] ; then echo -e "\e[31m
-  ╔═════╦══╤══╗
-  ║ ────╢  │  ║
-  ╟──── ║ │ │ ║ 
-  ╚═════╩═╧═╧═╝ theme, a \e[0;1mSimplist\e[0;31m & \e[0;1mMinimalist\e[0;31m theme.
-\e[0m" ; fi
-
-once=1
 
 # config
 
@@ -22,7 +12,6 @@ local SM_PROMPT_LINES=3;
 #   $(pictos_or_smileys 1 <0/1>) to use emojis
 #   $(pictos_or_smileys 0 <0/1>) to use pictos
 pictos_or_smileys () {
-    local emojis;
     local emojis=(" ✘" "[ಠ_ಠ]" " ✔︎" "[･‿･]");
     if [ "$1" -eq 0 ] ; then echo "%F{red}${emojis[1 + $SM_WITH_SMILEYS]}%F{default}" ;
     elif [ "$1" -eq 1 ] ; then echo "%F{green}${emojis[3 + $SM_WITH_SMILEYS]}%F{default}" ; fi
@@ -39,16 +28,16 @@ sudo_color() {
 local return_code="%(?..%F{red}%? - )%F{default}";
 local SM_PREFIX="%F{yellow}╭─";
 local SM_MIDFIX="%F{yellow}├─";
-local SM_SUFFIX="%F{yellow}╰──→%F{default} ";
+local SM_SUFFIX="%F{yellow}╰─┤%F{blue}%N%F{yellow}├─→%F{default} ";
 local SM_USER="%F{$(sudo_color)}%n%F{yellow}@%F{cyan}%m";
 local SM_DIR="%F{magenta}%~%F{default}";
 local SM_CLOCK="${return_code}%F{cyan}%D%F{yellow} / %F{blue}%T%F{default}";
 
 sm_prompt() {
     if [ $SM_PROMPT_LINES -eq 2 ] ; then
-        echo '$SM_PREFIX $SM_USER $SM_DIR $(git_prompt_info) $(git_prompt_status)
+        echo '$SM_PREFIX $SM_USER $SM_DIR
 $SM_SUFFIX' 
-    else echo '$SM_PREFIX $SM_USER $(git_prompt_info) $(git_prompt_status)
+    else echo '$SM_PREFIX $SM_USER
 $SM_MIDFIX $SM_DIR
 $SM_SUFFIX' ; fi
 }
