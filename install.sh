@@ -26,5 +26,5 @@ elif [[ "$1" = "--bash" || "$1" = "-b" ]]  ; then install_bash
 elif [[ "$1" = "--all" || "$1" = "-a" ]]  ; then
     install_zsh
     install_bash
-    clear ; echo -e "$happy_face Congrats! All\e[1;34m sm-theme\e[0m added !" ; 
+    clear ; echo -e "$happy_face Congrats! All\e[1;34m sm-theme\e[0m added !"
 fi
