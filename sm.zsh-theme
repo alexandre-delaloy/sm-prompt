@@ -37,9 +37,9 @@ local SM_CLOCK="${return_code}%F{cyan}%D%F{yellow} / %F{blue}%T%F{default} (%x)"
 
 sm_prompt() {
     if [ $SM_PROMPT_LINES -eq 2 ] ; then
-        echo '$SM_PREFIX $SM_USER $SM_DIR
+        echo '$SM_PREFIX $SM_USER $SM_DIR $(git_prompt_info) $(git_prompt_status)
 $SM_SUFFIX' 
-    else echo '$SM_PREFIX $SM_USER
+    else echo '$SM_PREFIX $SM_USER $(git_prompt_info) $(git_prompt_status)
 $SM_MIDFIX $SM_DIR
 $SM_SUFFIX' ; fi
 }
