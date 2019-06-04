@@ -1,16 +1,18 @@
 #!/bin/bash
 
-# config
+# ========== CONFIG ========== #
 
-# 1: with smileys ; 0: without smileys
+# 1: with smileys 
+# 0: without smileys
 local SM_WITH_SMILEYS=1;
 
-# 2: with 2 lines ; else: default
+# 2: with 2 lines 
+# else: default ( 3 lines )
 local SM_PROMPT_LINES=3;
 
-# write 
-#   $(pictos_or_smileys 1 <0/1>) to use emojis
-#   $(pictos_or_smileys 0 <0/1>) to use pictos
+# ============================ #
+
+# display emojis or pictos
 pictos_or_smileys () {
     local emojis=(" ✘" "[ಠ_ಠ]" " ✔︎" "[･‿･]");
     if [ "$1" -eq 0 ] ; then echo "%F{red}${emojis[1 + $SM_WITH_SMILEYS]}%F{default}" ;
@@ -23,10 +25,7 @@ sudo_color() {
     else echo "blue" ; fi
 }
 
-
-
-
-# custom my prompt
+# custom zsh prompt
 local return_code="%(?..%F{red}%? - )%F{default}";
 local SM_PREFIX="%F{yellow}╭─";
 local SM_MIDFIX="%F{yellow}├─";
