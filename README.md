@@ -14,7 +14,7 @@
 
 ## Install
 
-### 1. via Oh-My-Zsh
+<!-- ### 1. via Oh-My-Zsh -->
 
 > I assume you have [Oh My Zsh](https://ohmyz.sh/) installed. If not, let's **get it** !
 
