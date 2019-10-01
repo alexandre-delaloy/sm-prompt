@@ -2,7 +2,7 @@
 
 # ------------------------[CONFIG]-------------------------
 
-# SM_SMILEYS=1 => with smileys, using "[ಠ_ಠ]" & "[･‿･]
+# SM_SMILEYS=1 => with smileys, using "[ಠ_ಠ]" & "[･‿･]"
 # SM_SMILEYS=0 => without smileys, using "✘" & "✔︎"
 SM_SMILEYS=1
 
