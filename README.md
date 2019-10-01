@@ -8,13 +8,13 @@
 
 ⛓ a **Simplist** & **Minimalist** theme for your **favorite** terminal.
 
-> This theme better fit
+> ⚠️ This theme better fit with **Fira Code** font.
 
 ## Install
 
 ### 1. via Oh-My-Zsh
 
-> I assume you have [Oh My Zsh](https://ohmyz.sh/) installed. If not, let's get it !
+> I assume you have [Oh My Zsh](https://ohmyz.sh/) installed. If not, let's **get it** !
 
 1. Install `sm.zsh-theme` in  `~/.oh-my-zsh` folder:
 
@@ -32,7 +32,7 @@
 24    # Set list of themes to pick from when loading at random
 ```
 
-### 2. Via bash
+### 2. Via bash ( available soon ! )
 
 ```bash
 # at the root of this repository
