@@ -1,12 +1,14 @@
+<img src="./docs/logo.png" width="200" />
+
 # sm-theme
 
 <a href="https://github.com/blyndusk/sm-theme/releases/latest"><img src="https://img.shields.io/github/release/blyndusk/sm-theme.svg" alt="sm-theme last release"/></a>
-<img src="https://img.shields.io/github/languages/top/blyndusk/sm-theme.svg" alt="sm-theme top language"/>
+<img src="https://img.shields.io/github/languages/top/blyndusk/sm-theme.svg?color=%23222222" alt="sm-theme top language"/>
 <a href="https://github.com/blyndusk/sm-theme/blob/master/LICENSE" alt="sm license"><img src="https://img.shields.io/github/license/blyndusk/sm-theme.svg"/></a>
 
-![sm-theme](./docs/sm-theme.gif)
+⛓ **sm-theme** is a **Simplistic** & **Minimalist** theme for **`ZSH`** prompts.
 
-⛓ a **Simplist** & **Minimalist** theme for **`ZSH`**.
+![sm-theme](./docs/sm-theme.gif)
 
 > ⚠️ This theme better fit with **Fira Code** font.
 
@@ -50,7 +52,7 @@ To custom this theme, there is **three** configuration variables:
 By default, **all features are *enabled***.
 
 ```bash
-# SM_SMILEYS=1 => with smileys, using "[ಠ_ಠ]" & "[･‿･]
+# SM_SMILEYS=1 => with smileys, using "[ಠ_ಠ]" & "[･‿･]"
 # SM_SMILEYS=0 => without smileys, using "✘" & "✔︎"
 SM_SMILEYS=1
 
