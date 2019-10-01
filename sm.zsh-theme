@@ -1,60 +1,73 @@
 #!/bin/bash
 
-# config
+# ------------------------[CONFIG]-------------------------
 
-# shellcheck disable=SC1091
-source ./.config
+# SM_SMILEYS=1 => with smileys, using "[ಠ_ಠ]" & "[･‿･]
+# SM_SMILEYS=0 => without smileys, using "✘" & "✔︎"
+SM_SMILEYS=1
 
+# SM_CORNERS=1 => the prompt's corner aren't rounded: "╭"
+# SM_CORNERS=0 => the prompt's corner are rounded: "╓"
+SM_CORNERS=1
 
-# write 
-#   $(pictos_or_smileys 1 <0/1>) to use emojis
-#   $(pictos_or_smileys 0 <0/1>) to use pictos
+# SM_MULTILINES=1 => the prompt is displayed on 3 lines
+# SM_MULTILINES=0 => the prompt is displayed on 2 lines
+SM_MULTILINES=1
 
+# -----------------------[SET PROMPT]----------------------
+
+# 1. SET SMILEYS
 set_smileys() {
     if [ "$SM_SMILEYS" -eq 1 ] ; then 
-        smileys=("[ಠ_ಠ]" "[･‿･]")
+        smileys=("[ಠ_ಠ]" "[･‿･]");
     elif [ "$SM_SMILEYS" -eq 0 ] ; then
-        smileys=(" ✘" " ✔︎")
+        smileys=(" ✘" " ✔︎");
     fi
 }
 set_smileys
 
-corners () {
-    local corners=("╭" "├" "╰" "╓" "╟" "╙");
-    if [ "$1" -eq 0 ] ; then corners=("╭" "├" "╰");
-    elif [ "$1" -eq 1 ] ; then corners=("╓" "╟" "╙") ; fi
-    SM_PREFIX="%F{yellow}${corners[1]}─"
-    SM_MIDFIX="%F{yellow}${corners[2]}─"
-    SM_SUFFIX="%F{yellow}${corners[3]}──→%F{default} "
+# 2. SET CORNERS
+set_corners () {
+    if [ "$SM_CORNERS" -eq 1 ] ; then 
+        corners=("╓" "╟" "╙");
+    elif [ "$SM_CORNERS" -eq 0 ] ; then 
+        corners=("╭" "├" "╰");
+    fi
 }
+set_corners
+
+set_multilines() {
+    if [ "$SM_MULTILINES" -eq 1 ] ; then 
+        sm_prompt='$SM_PREFIX $SM_USER $(git_prompt_info) $(git_prompt_status)
+$SM_MIDFIX $SM_DIR
+$SM_SUFFIX';
+    elif [ "$SM_MULTILINES" -eq 0 ] ; then 
+        sm_prompt='$SM_PREFIX $SM_USER $SM_DIR $(git_prompt_info) $(git_prompt_status)
+$SM_SUFFIX';
+    fi
+} 
+set_multilines
 
 # display red user if sudo is enabeled
 sudo_color() {
-    if [ "$UID" -eq 0 ] ; then echo "red" ; 
-    else echo "blue" ; fi
+    if [ "$UID" -eq 0 ] ; then 
+        echo "red"; 
+    else 
+        echo "blue"; 
+    fi
 }
-
 
 # custom my prompt
 return_code="%(?..%F{red}%? - )%F{default}";
 SM_USER="%F{$(sudo_color)}%n%F{yellow}@%F{cyan}%m";
 SM_DIR="%F{magenta}%~%F{default}";
 SM_CLOCK="${return_code}%F{cyan}%D%F{yellow} / %F{blue}%T";
-
-corners "$SM_CORNERS";
-
-sm_prompt() {
-    if [ ! "$SM_MULTILINES" -eq 1 ] ; then
-        echo '$SM_PREFIX $SM_USER $SM_DIR $(git_prompt_info) $(git_prompt_status)
-$SM_SUFFIX' 
-    else echo '$SM_PREFIX $SM_USER $(git_prompt_info) $(git_prompt_status)
-$SM_MIDFIX $SM_DIR
-$SM_SUFFIX' ; fi
-}
-
+SM_PREFIX="%F{yellow}${corners[1]}─";
+SM_MIDFIX="%F{yellow}${corners[2]}─";
+SM_SUFFIX="%F{yellow}${corners[3]}──→%F{default} ";
 
 # set new prompt
-PROMPT=$(sm_prompt)
+PROMPT="$sm_prompt";
 RPROMPT="$SM_CLOCK";
 
 # update vcs values
