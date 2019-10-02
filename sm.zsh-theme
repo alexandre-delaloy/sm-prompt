@@ -60,7 +60,7 @@ sudo_color() {
 # custom my prompt
 return_code="%(?..%F{red}%? - )%F{default}";
 SM_USER="%F{$(sudo_color)}%n%F{yellow}@%F{cyan}%m";
-SM_DIR="%F{magenta}%~%F{default}";
+SM_DIR="%F{default}%~%F{default}";
 SM_CLOCK="${return_code}%F{cyan}%D%F{yellow} / %F{blue}%T";
 SM_PREFIX="%F{yellow}${corners[1]}─";
 SM_MIDFIX="%F{yellow}${corners[2]}─";
@@ -71,7 +71,7 @@ PROMPT="$sm_prompt";
 RPROMPT="$SM_CLOCK";
 
 # update vcs values
-ZSH_THEME_GIT_PROMPT_PREFIX="%F{yellow}git:%F{default}";
+ZSH_THEME_GIT_PROMPT_PREFIX="%F{magenta}git:%F{default}";
 ZSH_THEME_GIT_PROMPT_SUFFIX="";
 ZSH_THEME_GIT_PROMPT_DIRTY="%F{red}${smileys[1]}%F{default}";
 ZSH_THEME_GIT_PROMPT_CLEAN="%F{green}${smileys[2]}%F{default}";
