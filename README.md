@@ -20,14 +20,20 @@
 
 If you're using [Oh-My-Zsh](https://github.com/robbyrussell/oh-my-zsh):
 
-1. Install `sm.zsh-theme` in  `~/.oh-my-zsh/` folder:
+1. Clone this repository:
+
+```bash
+git clone https://github.com/blyndusk/sm-theme.git
+```
+
+2. Install `sm.zsh-theme` in  `~/.oh-my-zsh/` folder:
 
 ```bash
 # at the root of this repository
 > source install.sh --zsh
 ```
 
-2. Update `ZSH_THEME` theme in your `.zshrc`
+3. Update `ZSH_THEME` theme in your `.zshrc`
 
 ```bash
 21    # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
