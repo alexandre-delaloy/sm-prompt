@@ -8,35 +8,19 @@
 <a href="https://github.com/blyndusk/sm-theme/blob/master/LICENSE" alt="sm license"><img src="https://img.shields.io/github/license/blyndusk/sm-theme.svg"/></a>
 <a href="https://github.com/blyndusk/sm-theme" alt="sm license"><img src="https://img.shields.io/github/stars/blyndusk/sm-theme?color=878787"/></a>
 
-
-
 ⛓ **sm-theme** is a **Simplistic** & **Minimalist** theme for **`ZSH`** prompts.
 
 ![sm-theme](./docs/sm-theme.gif)
 
 > ⚠️ This theme better fit with **Fira Code** font.
 
-## Install
-
-### zgen
-
-If you're using [zgen](https://github.com/tarjoilija/zgen):
-
-1. Add `zgen load blyndusk/sm-theme` to your `.zshrc` along with your other `zgen load` commands.
-2. `zgen reset && zgen save`
-
-### Antigen
-
-If you're using [Antigen](https://github.com/zsh-users/antigen):
-
-1. Add `antigen bundle blyndusk/sm-theme` to your `.zshrc` where you've listed your other plugins.
-2. Close and reopen your Terminal/iTerm window to **refresh context** and use the plugin. Alternatively, you can run `antigen bundle blyndusk/sm-theme` in a running shell to have `antigen` load the new plugin.
+## I - Install
 
 ### Oh-My-Zsh
 
-> I assume you have [Oh My Zsh](https://ohmyz.sh/) installed. If not, let's **get it** !
+If you're using [Oh-My-Zsh](https://github.com/robbyrussell/oh-my-zsh):
 
-1. Install `sm.zsh-theme` in  `~/.oh-my-zsh` folder:
+1. Install `sm.zsh-theme` in  `~/.oh-my-zsh/` folder:
 
 ```bash
 # at the root of this repository
@@ -52,14 +36,21 @@ If you're using [Antigen](https://github.com/zsh-users/antigen):
 24    # Set list of themes to pick from when loading at random
 ```
 
-<!-- ### 2. Via bash ( available soon ! )
+### Antigen
 
-```bash
-# at the root of this repository
-> source install.sh --bash
-``` -->
+If you're using [Antigen](https://github.com/zsh-users/antigen):
 
-## Customization
+1. Add `antigen bundle blyndusk/sm-theme` to your `.zshrc` where you've listed your other plugins.
+2. Close and reopen your Terminal/iTerm window to **refresh context** and use the plugin. Alternatively, you can run `antigen bundle blyndusk/sm-theme` in a running shell to have `antigen` load the new plugin.
+
+### zgen
+
+If you're using [zgen](https://github.com/tarjoilija/zgen):
+
+1. Add `zgen load blyndusk/sm-theme` to your `.zshrc` along with your other `zgen load` commands.
+2. `zgen reset && zgen save`
+
+## II - Customization
 
 To custom this theme, there is **three** configuration variables:
 
@@ -139,12 +130,12 @@ SM_MULTILINES=1
 
 ![no corners](./docs/sm-no-multilines.png)
 
-## Curated List
+## III - Curated List
 
 - [oh-my-zsh themes](https://github.com/robbyrussell/oh-my-zsh/wiki/Themes)
 - [oh-my-zsh external themes](https://github.com/robbyrussell/oh-my-zsh/wiki/External-themes)
 - [awesome-zsh-plugins](https://github.com/unixorn/awesome-zsh-plugins)
 
-## License
+## IV - License
 
 Under [MIT](https://github.com/blyndusk/sm-theme/blob/master/LICENSE) license.
