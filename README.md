@@ -18,7 +18,21 @@
 
 ## Install
 
-<!-- ### 1. via Oh-My-Zsh -->
+### zgen
+
+If you're using [zgen](https://github.com/tarjoilija/zgen):
+
+1. Add `zgen load blyndusk/sm-theme` to your `.zshrc` along with your other `zgen load` commands.
+2. `zgen reset && zgen save`
+
+### Antigen
+
+If you're using [Antigen](https://github.com/zsh-users/antigen):
+
+1. Add `antigen bundle blyndusk/sm-theme` to your `.zshrc` where you've listed your other plugins.
+2. Close and reopen your Terminal/iTerm window to **refresh context** and use the plugin. Alternatively, you can run `antigen bundle blyndusk/sm-theme` in a running shell to have `antigen` load the new plugin.
+
+### Oh-My-Zsh
 
 > I assume you have [Oh My Zsh](https://ohmyz.sh/) installed. If not, let's **get it** !
 
