@@ -1,5 +1,6 @@
 <img src="./docs/logo.png" width="200" />
 
+
 # sm-theme
 
 <a href="https://github.com/blyndusk/sm-theme/releases/latest"><img src="https://img.shields.io/github/release/blyndusk/sm-theme.svg" alt="sm-theme last release"/></a>
