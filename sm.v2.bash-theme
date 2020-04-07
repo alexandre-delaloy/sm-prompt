@@ -12,13 +12,24 @@ blue()    { echo "\e[0;34m$1\e[0m"; }
 magenta() { echo "\e[0;35m$1\e[0m"; }
 cyan()    { echo "\e[0;36m$1\e[0m"; }
 
+checkIfTheBranchIsClean() {
+  GIT_STATUS=$(git diff --exit-code>/dev/null);
+  if [ $? = 0 ] ; then
+    echo "the branch is clean";
+    GIT_BRANCH=$(green $GIT_BRANCH_NAME);
+  else
+    GIT_BRANCH=$(red $GIT_BRANCH_NAME);
+  fi
+}
+
 checkIfGitExist() {
   if [ -d ".git" ] ; then
-    GIT_BRANCH_NAME="$(git branch 2>/dev/null | grep '^*' | colrm 1 2)"
-    GIT="[$(magenta "git"):$GIT_BRANCH_NAME]"
+    GIT_BRANCH_NAME="$(git branch 2>/dev/null | grep '^*' | colrm 1 2)";
+    GIT="[$(magenta "git"):$GIT_BRANCH]";
   else 
-    GIT=""
+    GIT="";
   fi
+  checkIfTheBranchIsClean;
 }
 
 promptCommand() {
