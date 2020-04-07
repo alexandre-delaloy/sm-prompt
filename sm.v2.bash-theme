@@ -5,20 +5,25 @@ USERNAME="\u";
 TIME="\t";
 WD="\w";
 
-
+red()     { echo "\e[0;31m$1\e[0m"; }
+green()   { echo "\e[0;32m$1\e[0m"; }
+yellow()  { echo "\e[0;33m$1\e[0m"; }
+blue()    { echo "\e[0;34m$1\e[0m"; }
+magenta() { echo "\e[0;35m$1\e[0m"; }
+cyan()    { echo "\e[0;36m$1\e[0m"; }
 
 checkIfGitExist() {
   if [ -d ".git" ] ; then
     GIT_BRANCH_NAME="$(git branch 2>/dev/null | grep '^*' | colrm 1 2)"
-    GIT="[git:$GIT_BRANCH_NAME]"
+    GIT="[$(magenta "git"):$GIT_BRANCH_NAME]"
   else 
     GIT=""
   fi
 }
 
 promptCommand() {
-
-  PS1="\e[0m┌[\e[0;34m$USERNAME\e[0m@\e[0;34m$HOSTNAME\e[0m][\e[0;36m$TIME\e[0m]\n├[\e[0;33m$WD\e[0m]$GIT\n└[]─□\e[0m ";
+  checkIfGitExist
+  PS1="\e[0m┌[$(blue $USERNAME)@$(blue $HOSTNAME)][\e[0;36m$( cyan $TIME)\e[0m]\n├[$(yellow $WD)]$GIT\n└[]─□\e[0m ";
 }
 
 
