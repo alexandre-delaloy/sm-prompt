@@ -34,6 +34,16 @@ checkNumberOfUncommitedButAddedFiles() {
   fi
 }
 
+checkNumberOfUncommitedAndUnaddedFiles() {
+  local NB_OF_FILES=$(git status --porcelain 2>/dev/null| grep "^ M" | wc -l)
+  if [ $NB_OF_FILES -ne 0 ] ; then
+    GIT_LOCAL_CHANGE=$(yellow "*${NB_OF_FILES//[[:space:]]/$WP}");
+  else
+    GIT_LOCAL_CHANGE="";
+  fi
+}
+
+
 checkIfGitExist() {
   if [ -d ".git" ] ; then
     GIT_BRANCH_NAME="$(git branch 2>/dev/null | grep '^*' | colrm 1 2)";
@@ -43,6 +53,7 @@ checkIfGitExist() {
   fi
   checkIfTheBranchIsClean;
   checkNumberOfUncommitedButAddedFiles;
+  checkNumberOfUncommitedAndUnaddedFiles;
 }
 
 promptCommand() {
