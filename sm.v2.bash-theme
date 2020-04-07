@@ -1,0 +1,21 @@
+#!bin/bash
+
+HOSTNAME="\h";
+USERNAME="\u";
+TIME="\t";
+WD="\w";
+
+
+
+promptCommand() {
+
+  PS1="\e[0m┌[\e[0;34m$USERNAME\e[0m@\e[0;34m$HOSTNAME\e[0m][\e[0;36m$TIME\e[0m]\n├[\e[0;33m$WD\e[0m]$GIT\n└[]─□\e[0m ";
+}
+
+
+PROMPT_COMMAND="promptCommand"
+
+  
+ 
+
+
