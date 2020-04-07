@@ -4,7 +4,9 @@ HOSTNAME="\h";
 USERNAME="\u";
 TIME="\t";
 WD="\w";
+WP="";
 
+default() { echo "\e[0;00m$1\e[0m"; }
 red()     { echo "\e[0;31m$1\e[0m"; }
 green()   { echo "\e[0;32m$1\e[0m"; }
 yellow()  { echo "\e[0;33m$1\e[0m"; }
@@ -13,12 +15,22 @@ magenta() { echo "\e[0;35m$1\e[0m"; }
 cyan()    { echo "\e[0;36m$1\e[0m"; }
 
 checkIfTheBranchIsClean() {
-  GIT_STATUS=$(git diff --exit-code>/dev/null);
-  if [ $? = 0 ] ; then
-    echo "the branch is clean";
+  git diff --exit-code>/dev/null;
+  if [ $? -eq 0 ] ; then
     GIT_BRANCH=$(green $GIT_BRANCH_NAME);
   else
     GIT_BRANCH=$(red $GIT_BRANCH_NAME);
+  fi
+}
+
+checkNumberOfUncommitedButAddedFiles() {
+  local NB_OF_FILES=$(git status --porcelain 2>/dev/null| grep "^M" | wc -l);
+  if [ $NB_OF_FILES -ne 0 ] ; then
+  echo "foo"
+    GIT_ADDED_FILES=$(green "+${NB_OF_FILES//[[:space:]]/$WP}");
+  else
+  echo "bar"
+    GIT_ADDED_FILES="";
   fi
 }
 
@@ -30,17 +42,12 @@ checkIfGitExist() {
     GIT="";
   fi
   checkIfTheBranchIsClean;
+  checkNumberOfUncommitedButAddedFiles;
 }
 
 promptCommand() {
   checkIfGitExist
-  PS1="\e[0m┌[$(blue $USERNAME)@$(blue $HOSTNAME)][\e[0;36m$( cyan $TIME)\e[0m]\n├[$(yellow $WD)]$GIT\n└[]─□\e[0m ";
+  PS1="\e[0m┌[$(blue $USERNAME)@$(blue $HOSTNAME)][\e[0;36m$( cyan $TIME)\e[0m]\n├[$(yellow $WD)]$GIT\n└[$GIT_ADDED_FILES$GIT_LOCAL_CHANGE$GIT_UNTRACKED_FILE]─□\e[0m ";
 }
 
-
 PROMPT_COMMAND="promptCommand"
-
-  
- 
-
-
