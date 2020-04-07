@@ -43,6 +43,14 @@ checkNumberOfUncommitedAndUnaddedFiles() {
   fi
 }
 
+checkIfThereIsUntrackedFiles() {
+  local NB_OF_FILES=$(git status --porcelain 2>/dev/null| grep "^??" | wc -l);
+  if [ $NB_OF_FILES -ne 0 ] ; then
+    GIT_UNTRACKED_FILE=$(blue "?${NB_OF_FILES//[[:space:]]/$WP}");
+  else
+    GIT_UNTRACKED_FILE="";
+  fi
+}
 
 checkIfGitExist() {
   if [ -d ".git" ] ; then
@@ -54,6 +62,7 @@ checkIfGitExist() {
   checkIfTheBranchIsClean;
   checkNumberOfUncommitedButAddedFiles;
   checkNumberOfUncommitedAndUnaddedFiles;
+  checkIfThereIsUntrackedFiles;
 }
 
 promptCommand() {
