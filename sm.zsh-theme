@@ -81,3 +81,5 @@ ZSH_THEME_GIT_PROMPT_DELETED="%F{red}○%F{default} ";
 ZSH_THEME_GIT_PROMPT_RENAMED="%F{blue}‣%F{default} ";
 ZSH_THEME_GIT_PROMPT_UNTRACKED="%F{magenta}✦%F{default} ";
 ZSH_THEME_GIT_PROMPT_UNMERGED="%F{magenta}✖%F{default} ";
+
+echo "$sm_prompt"
