@@ -5,6 +5,8 @@ USERNAME="\u";
 TIME="\t";
 WD="\w";
 WP="";
+GIT_BRANCH_NAME="";
+GIT_IS_UNTRACKED_FILES=0
 
 default() { echo "\e[0;00m$1\e[0m"; }
 red()     { echo "\e[0;31m$1\e[0m"; }
@@ -16,10 +18,10 @@ cyan()    { echo "\e[0;36m$1\e[0m"; }
 
 checkIfTheBranchIsClean() {
   git diff --exit-code>/dev/null;
-  if [ $? -eq 0 ] ; then
-    GIT_BRANCH=$(green $GIT_BRANCH_NAME);
-  else
+  if [[ $? -ne 0  || GIT_IS_UNTRACKED_FILES -ne 0 ]] ; then
     GIT_BRANCH=$(red $GIT_BRANCH_NAME);
+  else
+    GIT_BRANCH=$(green $GIT_BRANCH_NAME);
   fi
 }
 
@@ -47,19 +49,21 @@ checkIfThereIsUntrackedFiles() {
   local NB_OF_FILES=$(git status --porcelain 2>/dev/null| grep "^??" | wc -l);
   if [ $NB_OF_FILES -ne 0 ] ; then
     GIT_UNTRACKED_FILE=$(blue "?${NB_OF_FILES//[[:space:]]/$WP}");
+    GIT_IS_UNTRACKED_FILES=1
   else
     GIT_UNTRACKED_FILE="";
+    GIT_IS_UNTRACKED_FILES=0
   fi
 }
 
 checkIfGitExist() {
   if [ -d ".git" ] ; then
     GIT_BRANCH_NAME="$(git branch 2>/dev/null | grep '^*' | colrm 1 2)";
+    checkIfTheBranchIsClean;
     GIT="[$(magenta "git"):$GIT_BRANCH]";
   else 
     GIT="";
   fi
-  checkIfTheBranchIsClean;
   checkNumberOfUncommitedButAddedFiles;
   checkNumberOfUncommitedAndUnaddedFiles;
   checkIfThereIsUntrackedFiles;
