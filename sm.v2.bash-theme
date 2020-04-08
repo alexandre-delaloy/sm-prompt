@@ -19,7 +19,7 @@ cyan()    { echo "\e[0;36m$1\e[0m"; }
 getBranchStatus() {
   git diff --exit-code>/dev/null;
   # if there is no diff AND there isn't untracked files
-  if [[ $? -eq 0 && GIT_IS_UNTRACKED_FILES -ne 0 ]] ; then
+  if [[ $? -eq 0 && GIT_IS_UNTRACKED_FILES -eq 0 ]] ; then
     # then branch is clean
     GIT_BRANCH=$(green $GIT_BRANCH_NAME);
   else
@@ -58,6 +58,7 @@ getNumberOfUntrackedFiles() {
     GIT_UNTRACKED_FILE="";
     GIT_IS_UNTRACKED_FILES=0
   fi
+  echo "$GIT_IS_UNTRACKED_FILES"
 }
 
 checkIfGitExist() {
