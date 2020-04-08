@@ -32,6 +32,10 @@ blue()    { echo "%F{blue}$1%F{default}"; }
 magenta() { echo "%F{magenta}$1%F{default}"; } 
 cyan()    { echo "%F{cyan}$1%F{default}"; } 
 
+extractByWildCard() {
+  git status --porcelain 2>/dev/null| grep $1 | wc -l
+}
+
 getBranchStatus() {
   git diff --exit-code>/dev/null
   # if there is no diff AND there isn't untracked files
@@ -43,46 +47,53 @@ getBranchStatus() {
     GIT_BRANCH=$(red $GIT_BRANCH_NAME);
   fi
 }
+deleteSpaces() {
+  local STRING=$1
+  echo ${STRING//[[:space:]]/$BLANK}
+}
 
 getNumberOfAddedFiles() {
-  local MODIFIED_AND_ADDED_FILES=$(git status --porcelain 2>/dev/null| grep "^M" | wc -l);
-  local JUST_ADDED_FILES=$(git status --porcelain 2>/dev/null| grep "^A" | wc -l);
-  GIT_ADDED_FILES=$(($MODIFIED_AND_ADDED_FILES + $JUST_ADDED_FILES))
+  local C1=$(extractByWildCard "^[A|AD|AM]");
+  local C2=$(extractByWildCard "^MM");
+  local FILES=$(($C1 + $C2))
+  GIT_ADDED_FILES=$(deleteSpaces $FILES)
   if [ $GIT_ADDED_FILES -ne 0 ] ; then
-    GIT_ADDED_FILES_PROMPT=$(green "${GIT_ADDED_FILES//[[:space:]]/$BLANK}+");
+    GIT_ADDED_FILES_PROMPT=$(green "$GIT_ADDED_FILES+");
   else
     GIT_ADDED_FILES_PROMPT="";
   fi
 }
 
 getNumberOfModifiedFiles() {
-  local ADDED_THEN_MODIFIED_FILES=$(git status --porcelain 2>/dev/null| grep "^AM" | wc -l);
-   local MODIFIED_THEN_ADDED_THEN_MODIFIED_FILES=$(git status --porcelain 2>/dev/null| grep "^MM" | wc -l);
-  local JUST_MODIFIED_FILES=$(git status --porcelain 2>/dev/null| grep "^ M" | wc -l);
-  GIT_MODIFIED_FILES=$(($ADDED_THEN_MODIFIED_FILES + $JUST_MODIFIED_FILES + $MODIFIED_THEN_ADDED_THEN_MODIFIED_FILES))
+  local C1=$(extractByWildCard "^\sM");
+  local C2=$(extractByWildCard "^AM");
+  local C3=$(extractByWildCard "^MM");
+  local FILES=$(($C1 + $C2 + $C3))
+  GIT_MODIFIED_FILES=${FILES//[[:space:]]/$BLANK};
   if [ $GIT_MODIFIED_FILES -ne 0 ] ; then
-    GIT_MODIFIED_FILES_PROMPT=$(yellow "${GIT_MODIFIED_FILES//[[:space:]]/$BLANK}*");
+    GIT_MODIFIED_FILES_PROMPT=$(yellow "$GIT_MODIFIED_FILES*");
   else
     GIT_MODIFIED_FILES_PROMPT="";
   fi
 }
 
-
-
-
 getNumberOfDeletedFiles() {
-  GIT_DELETED_FILES=$(git status --porcelain 2>/dev/null| grep "^ D" | wc -l);
+  local C1=$(extractByWildCard "^\sD");
+  local C2=$(extractByWildCard "^AD");
+  local FILES=$(($C1 + $C2))
+  GIT_DELETED_FILES=${FILES//[[:space:]]/$BLANK};
   if [ $GIT_DELETED_FILES -ne 0 ] ; then
-    GIT_DELETED_FILES_PROMPT="$(red "${GIT_DELETED_FILES//[[:space:]]/$BLANK}-")";
+    GIT_DELETED_FILES_PROMPT="$(red "$GIT_DELETED_FILES-")";
   else
     GIT_DELETED_FILES_PROMPT="";
   fi
 }
 
 getNumberOfUntrackedFiles() {
-  GIT_UNTRACKED_FILES=$(git status --porcelain 2>/dev/null| grep "^??" | wc -l);
+  local FILES=$(extractByWildCard "^??");
+  GIT_UNTRACKED_FILES=${FILES//[[:space:]]/$BLANK};
   if [ $GIT_UNTRACKED_FILES -ne 0 ] ; then
-    GIT_UNTRACKED_FILES_PROMPT=$(blue "${GIT_UNTRACKED_FILES//[[:space:]]/$BLANK}?");
+    GIT_UNTRACKED_FILES_PROMPT=$(blue "$GIT_UNTRACKED_FILES?");
   else
     GIT_UNTRACKED_FILES_PROMPT="";
   fi
@@ -98,10 +109,9 @@ getNumberOfFiles() {
 checkIfGitExist() {
   if [ -d ".git" ] ; then
 
-    getNumberOfFiles
-
     GIT_BRANCH_NAME="$(git branch 2>/dev/null | grep '^*' | colrm 1 2)";
 
+    getNumberOfFiles
     getBranchStatus;
 
     GIT="[$(magenta "git"):$GIT_BRANCH]";

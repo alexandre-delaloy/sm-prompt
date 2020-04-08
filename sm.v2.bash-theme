@@ -53,7 +53,9 @@ deleteSpaces() {
 }
 
 getNumberOfAddedFiles() {
-  local FILES=$(extractByWildCard "^[A|AD|AM|MM]")
+  local C1=$(extractByWildCard "^[A|AD|AM]");
+  local C2=$(extractByWildCard "^MM");
+  local FILES=$(($C1 + $C2))
   GIT_ADDED_FILES=$(deleteSpaces $FILES)
   if [ $GIT_ADDED_FILES -ne 0 ] ; then
     GIT_ADDED_FILES_PROMPT=$(green "$GIT_ADDED_FILES+");
@@ -63,7 +65,10 @@ getNumberOfAddedFiles() {
 }
 
 getNumberOfModifiedFiles() {
-  local FILES=$(extractByWildCard "^[\sM|AM|MM]");
+  local C1=$(extractByWildCard "^\sM");
+  local C2=$(extractByWildCard "^AM");
+  local C3=$(extractByWildCard "^MM");
+  local FILES=$(($C1 + $C2 + $C3))
   GIT_MODIFIED_FILES=${FILES//[[:space:]]/$BLANK};
   if [ $GIT_MODIFIED_FILES -ne 0 ] ; then
     GIT_MODIFIED_FILES_PROMPT=$(yellow "$GIT_MODIFIED_FILES*");
@@ -73,8 +78,9 @@ getNumberOfModifiedFiles() {
 }
 
 getNumberOfDeletedFiles() {
-  local FILES=$(extractByWildCard "^[D|AD]");
-  
+  local C1=$(extractByWildCard "^\sD");
+  local C2=$(extractByWildCard "^AD");
+  local FILES=$(($C1 + $C2))
   GIT_DELETED_FILES=${FILES//[[:space:]]/$BLANK};
   if [ $GIT_DELETED_FILES -ne 0 ] ; then
     GIT_DELETED_FILES_PROMPT="$(red "$GIT_DELETED_FILES-")";
@@ -103,10 +109,9 @@ getNumberOfFiles() {
 checkIfGitExist() {
   if [ -d ".git" ] ; then
 
-    getNumberOfFiles
-
     GIT_BRANCH_NAME="$(git branch 2>/dev/null | grep '^*' | colrm 1 2)";
 
+    getNumberOfFiles
     getBranchStatus;
 
     GIT="[$(magenta "git"):$GIT_BRANCH]";
