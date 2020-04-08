@@ -58,20 +58,27 @@ getNumberOfUntrackedFiles() {
     GIT_UNTRACKED_FILE="";
     GIT_IS_UNTRACKED_FILES=0
   fi
-  echo "$GIT_IS_UNTRACKED_FILES"
+}
+
+getNumberOfFiles() {
+  getNumberOfAddedFiles;
+  getNumberOfModifiedFiles;
+  getNumberOfUntrackedFiles;
 }
 
 checkIfGitExist() {
   if [ -d ".git" ] ; then
+
+    getNumberOfFiles
+
     GIT_BRANCH_NAME="$(git branch 2>/dev/null | grep '^*' | colrm 1 2)";
+
     getBranchStatus;
+
     GIT="[$(magenta "git"):$GIT_BRANCH]";
   else 
     GIT="";
   fi
-  getNumberOfAddedFiles
-  getNumberOfModifiedFiles;
-  getNumberOfUntrackedFiles;
 }
 
 promptCommand() {
