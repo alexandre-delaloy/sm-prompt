@@ -1,12 +1,28 @@
 #!bin/bash
 
+# prompt vars
 HOSTNAME="\h";
 USERNAME="\u";
-TIME="\t";
+TIME="\A";
 WD="\w";
-WP="";
+BLANK="";
+
+# git vars
 GIT_BRANCH_NAME="";
-GIT_IS_UNTRACKED_FILES=0
+GIT_FILES_STATUS="";
+
+GIT_ADDED_FILES=0;
+GIT_ADDED_FILES_PROMPT="";
+
+GIT_MODIFIED_FILES=0;
+GIT_MODIFIED_FILES_PROMPT="";
+
+GIT_DELETED_FILES=0;
+GIT_DELETED_FILES_PROMPT="";
+
+GIT_UNTRACKED_FILES=0;
+GIT_UNTRACKED_FILES_PROMPT="";
+
 
 default() { echo "\e[0;00m$1\e[0m"; }
 red()     { echo "\e[0;31m$1\e[0m"; }
@@ -17,9 +33,9 @@ magenta() { echo "\e[0;35m$1\e[0m"; }
 cyan()    { echo "\e[0;36m$1\e[0m"; }
 
 getBranchStatus() {
-  git diff --exit-code>/dev/null;
+  git diff --exit-code>/dev/null
   # if there is no diff AND there isn't untracked files
-  if [[ $? -eq 0 && GIT_IS_UNTRACKED_FILES -eq 0 ]] ; then
+  if [[ $? -eq 0 && GIT_UNTRACKED_FILES -eq 0 ]] ; then
     # then branch is clean
     GIT_BRANCH=$(green $GIT_BRANCH_NAME);
   else
@@ -29,34 +45,34 @@ getBranchStatus() {
 }
 
 getNumberOfAddedFiles() {
-  local ADDED_FILES=0
   local MODIFIED_AND_ADDED_FILES=$(git status --porcelain 2>/dev/null| grep "^M" | wc -l);
   local JUST_ADDED_FILES=$(git status --porcelain 2>/dev/null| grep "^A" | wc -l);
-  ADDED_FILES=$(($MODIFIED_AND_ADDED_FILES + $JUST_ADDED_FILES))
-  if [ $ADDED_FILES -ne 0 ] ; then
-    GIT_ADDED_FILES=$(green "${ADDED_FILES//[[:space:]]/$WP}+");
+  GIT_ADDED_FILES=$(($MODIFIED_AND_ADDED_FILES + $JUST_ADDED_FILES))
+  if [ $GIT_ADDED_FILES -ne 0 ] ; then
+    GIT_ADDED_FILES_PROMPT=$(green "${GIT_ADDED_FILES//[[:space:]]/$BLANK}+");
   else
-    GIT_ADDED_FILES="";
+    GIT_ADDED_FILES_PROMPT="";
   fi
 }
 
 getNumberOfModifiedFiles() {
-  local MODIFIED_FILES=$(git status --porcelain 2>/dev/null| grep "^ M" | wc -l);
-  if [ $MODIFIED_FILES -ne 0 ] ; then
-    GIT_LOCAL_CHANGE=$(yellow "${MODIFIED_FILES//[[:space:]]/$WP}*");
+  local ADDED_THEN_MODIFIED_FILES=$(git status --porcelain 2>/dev/null| grep "^AM" | wc -l);
+   local MODIFIED_THEN_ADDED_THEN_MODIFIED_FILES=$(git status --porcelain 2>/dev/null| grep "^MM" | wc -l);
+  local JUST_MODIFIED_FILES=$(git status --porcelain 2>/dev/null| grep "^ M" | wc -l);
+  GIT_MODIFIED_FILES=$(($ADDED_THEN_MODIFIED_FILES + $JUST_MODIFIED_FILES + $MODIFIED_THEN_ADDED_THEN_MODIFIED_FILES))
+  if [ $GIT_MODIFIED_FILES -ne 0 ] ; then
+    GIT_MODIFIED_FILES_PROMPT=$(yellow "${GIT_MODIFIED_FILES//[[:space:]]/$BLANK}*");
   else
-    GIT_LOCAL_CHANGE="";
+    GIT_MODIFIED_FILES_PROMPT="";
   fi
 }
 
 getNumberOfUntrackedFiles() {
-  local UNTRACKED_FILES=$(git status --porcelain 2>/dev/null| grep "^??" | wc -l);
-  if [ $UNTRACKED_FILES -ne 0 ] ; then
-    GIT_UNTRACKED_FILE=$(blue "${UNTRACKED_FILES//[[:space:]]/$WP}?");
-    GIT_IS_UNTRACKED_FILES=1
+  GIT_UNTRACKED_FILES=$(git status --porcelain 2>/dev/null| grep "^??" | wc -l);
+  if [ $GIT_UNTRACKED_FILES -ne 0 ] ; then
+    GIT_UNTRACKED_FILES_PROMPT=$(blue "${GIT_UNTRACKED_FILES//[[:space:]]/$BLANK}?");
   else
-    GIT_UNTRACKED_FILE="";
-    GIT_IS_UNTRACKED_FILES=0
+    GIT_UNTRACKED_FILES_PROMPT="";
   fi
 }
 
@@ -76,14 +92,16 @@ checkIfGitExist() {
     getBranchStatus;
 
     GIT="[$(magenta "git"):$GIT_BRANCH]";
+    GIT_FILES_STATUS="[$GIT_ADDED_FILES_PROMPT$GIT_MODIFIED_FILES_PROMPT$GIT_DELETED_FILES_PROMPT$GIT_UNTRACKED_FILES_PROMPT]";
   else 
     GIT="";
+    GIT_FILES_STATUS="";
   fi
 }
 
 promptCommand() {
   checkIfGitExist
-  PS1="\e[0m┌[$(blue $USERNAME)@$(blue $HOSTNAME)][\e[0;36m$( cyan $TIME)\e[0m]\n├[$(yellow $WD)]$GIT\n└[$GIT_ADDED_FILES$GIT_LOCAL_CHANGE$GIT_UNTRACKED_FILE]─□\e[0m ";
+  PS1="┌[$(blue $USERNAME)@$(blue $HOSTNAME)][$(cyan $TIME)]\n├[$(yellow $WD)]$GIT\n└${GIT_FILES_STATUS}─□ ";
 }
 
 PROMPT_COMMAND="promptCommand"
