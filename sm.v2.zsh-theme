@@ -39,7 +39,11 @@ extractByWildCard() {
 getBranchStatus() {
   git diff --exit-code>/dev/null
   # if there is no diff AND there isn't untracked files
-  if [[ $? -eq 0 && GIT_UNTRACKED_FILES -eq 0 ]] ; then
+  if [[ 
+    $? -eq 0 && 
+    GIT_UNTRACKED_FILES -eq 0 &&
+    GIT_ADDED_FILES -eq 0
+  ]] ; then
     # then branch is clean
     GIT_BRANCH=$(green $GIT_BRANCH_NAME);
   else
@@ -53,8 +57,8 @@ deleteSpaces() {
 }
 
 getNumberOfAddedFiles() {
-  local C1=$(extractByWildCard "^[A|AD|AM]");
-  local C2=$(extractByWildCard "^MM");
+  local C1=$(extractByWildCard "^A");
+  local C2=$(extractByWildCard "^M");
   local FILES=$(($C1 + $C2))
   GIT_ADDED_FILES=$(deleteSpaces $FILES)
   if [ $GIT_ADDED_FILES -ne 0 ] ; then
