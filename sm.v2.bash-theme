@@ -16,39 +16,43 @@ blue()    { echo "\e[0;34m$1\e[0m"; }
 magenta() { echo "\e[0;35m$1\e[0m"; }
 cyan()    { echo "\e[0;36m$1\e[0m"; }
 
-checkIfTheBranchIsClean() {
+getBranchStatus() {
   git diff --exit-code>/dev/null;
-  if [[ $? -ne 0  || GIT_IS_UNTRACKED_FILES -ne 0 ]] ; then
-    GIT_BRANCH=$(red $GIT_BRANCH_NAME);
-  else
+  # if there is no diff AND there isn't untracked files
+  if [[ $? -eq 0 && GIT_IS_UNTRACKED_FILES -ne 0 ]] ; then
+    # then branch is clean
     GIT_BRANCH=$(green $GIT_BRANCH_NAME);
+  else
+    # else, the branch is dirty
+    GIT_BRANCH=$(red $GIT_BRANCH_NAME);
   fi
 }
 
-checkNumberOfUncommitedButAddedFiles() {
-  local NB_OF_FILES=$(git status --porcelain 2>/dev/null| grep "^M" | wc -l);
-  if [ $NB_OF_FILES -ne 0 ] ; then
-  echo "foo"
-    GIT_ADDED_FILES=$(green "+${NB_OF_FILES//[[:space:]]/$WP}");
+getNumberOfAddedFiles() {
+  local ADDED_FILES=0
+  local MODIFIED_AND_ADDED_FILES=$(git status --porcelain 2>/dev/null| grep "^M" | wc -l);
+  local JUST_ADDED_FILES=$(git status --porcelain 2>/dev/null| grep "^A" | wc -l);
+  ADDED_FILES=$(($MODIFIED_AND_ADDED_FILES + $JUST_ADDED_FILES))
+  if [ $ADDED_FILES -ne 0 ] ; then
+    GIT_ADDED_FILES=$(green "${ADDED_FILES//[[:space:]]/$WP}+");
   else
-  echo "bar"
     GIT_ADDED_FILES="";
   fi
 }
 
-checkNumberOfUncommitedAndUnaddedFiles() {
-  local NB_OF_FILES=$(git status --porcelain 2>/dev/null| grep "^ M" | wc -l)
-  if [ $NB_OF_FILES -ne 0 ] ; then
-    GIT_LOCAL_CHANGE=$(yellow "*${NB_OF_FILES//[[:space:]]/$WP}");
+getNumberOfModifiedFiles() {
+  local MODIFIED_FILES=$(git status --porcelain 2>/dev/null| grep "^ M" | wc -l);
+  if [ $MODIFIED_FILES -ne 0 ] ; then
+    GIT_LOCAL_CHANGE=$(yellow "${MODIFIED_FILES//[[:space:]]/$WP}*");
   else
     GIT_LOCAL_CHANGE="";
   fi
 }
 
-checkIfThereIsUntrackedFiles() {
-  local NB_OF_FILES=$(git status --porcelain 2>/dev/null| grep "^??" | wc -l);
-  if [ $NB_OF_FILES -ne 0 ] ; then
-    GIT_UNTRACKED_FILE=$(blue "?${NB_OF_FILES//[[:space:]]/$WP}");
+getNumberOfUntrackedFiles() {
+  local UNTRACKED_FILES=$(git status --porcelain 2>/dev/null| grep "^??" | wc -l);
+  if [ $UNTRACKED_FILES -ne 0 ] ; then
+    GIT_UNTRACKED_FILE=$(blue "${UNTRACKED_FILES//[[:space:]]/$WP}?");
     GIT_IS_UNTRACKED_FILES=1
   else
     GIT_UNTRACKED_FILE="";
@@ -59,14 +63,14 @@ checkIfThereIsUntrackedFiles() {
 checkIfGitExist() {
   if [ -d ".git" ] ; then
     GIT_BRANCH_NAME="$(git branch 2>/dev/null | grep '^*' | colrm 1 2)";
-    checkIfTheBranchIsClean;
+    getBranchStatus;
     GIT="[$(magenta "git"):$GIT_BRANCH]";
   else 
     GIT="";
   fi
-  checkNumberOfUncommitedButAddedFiles;
-  checkNumberOfUncommitedAndUnaddedFiles;
-  checkIfThereIsUntrackedFiles;
+  getNumberOfAddedFiles
+  getNumberOfModifiedFiles;
+  getNumberOfUntrackedFiles;
 }
 
 promptCommand() {
