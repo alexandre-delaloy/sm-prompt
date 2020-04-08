@@ -67,6 +67,9 @@ getNumberOfModifiedFiles() {
   fi
 }
 
+
+
+
 getNumberOfDeletedFiles() {
   GIT_DELETED_FILES=$(git status --porcelain 2>/dev/null| grep "^ D" | wc -l);
   if [ $GIT_DELETED_FILES -ne 0 ] ; then
