@@ -1,30 +1,64 @@
 #!/bin/bash
 
-local happy_face="\e[32m[･‿･]\e[0m"
-local sad_face="\e[31m[ಠ_ಠ]\e[0m"
+R="\e[0;31m[?]\e[0m";
+G="\e[0;32m[v]\e[0m";
+Y="\e[0;33m[?]\e[0m";
 
-install_zsh() {
-    if [ -d !~/.oh-my-zsh ] ; then echo -e "$sad_face It seems that there is no \e[1;34moh-my-zsh\e[0m folder at the root of this user"
-    else 
-        cp ./sm.zsh-theme ~/.oh-my-zsh/themes
-        if [ -f ~/.oh-my-zsh/themes/sm.zsh-theme ]; then echo -e "$happy_face Congrats! \e[1;34msm-theme\e[0m is installed for \e[1;34mzsh\e[0m !" ; 
-        else echo -e "$sad_face Uh oh.. Something went wrong.." ; fi
-    fi
+clear;
+
+copy_theme() {
+  STATUS="";
+  if [ ! -f ~/.$THEME_FILE ] ; then
+    # the file doesn't and will installed
+    STATUS="installed"
+  else
+    # the file exist, has previously been installed, and will be updated
+    STATUS="updated"
+  fi
+  # copy the desired file to the file destination
+  cp $THEME_FILE ~/.$THEME_FILE;
 }
 
-install_bash() {
-    cp ./sm.bash-theme ~
-    if ! grep "source ./sm.bash-theme" ~/.bashrc | clear; then printf "\n\nsource ./sm.bash-theme" >> ~/.bashrc ; fi
-    if [ -f ~/sm.bash-theme ]; then echo -e "$happy_face Congrats! \e[1;34msm-theme\e[0m is installed for \e[1;34mbash\e[0m !" ;
-    else echo -e "$sad_face Uh oh.. Something went wrong.." ; fi
+check_rc_file_existence() {
+  if [ ! -f ~/$CONFIG_FILE ] ; then
+    echo "$Y $CONFIG_FILE file was not found.";
+    touch ~/$CONFIG_FILE;
+    echo "$G $CONFIG_FILE file has been created.";
+  else
+    echo "$G $CONFIG_FILE file exist.";
+  fi
 }
 
-clear
+source_theme() {
+  local STRING="source ~/.$THEME_FILE"
+  if [ $(cat ~/$CONFIG_FILE | grep $STRING | wc -l) -eq 0 ] ; then
+    echo "\n$STRING" >> ~/$CONFIG_FILE;
+    source ~/$CONFIG_FILE;
+    echo "$G Theme sourced.";
+  fi
+  source ~/.$THEME_FILE;
+}
 
-if [[ "$1" = "--zsh" || "$1" = "-z" ]] ; then install_zsh
-elif [[ "$1" = "--bash" || "$1" = "-b" ]]  ; then install_bash
-elif [[ "$1" = "--all" || "$1" = "-a" || ! "$1" ]]  ; then
-    install_zsh
-    install_bash
-    clear ; echo -e "$happy_face Congrats! All\e[1;34m sm-theme\e[0m added !"
-else echo "$sad_face Please specify an environment, ie '\e[1;34m--zsh\e[0m' or '\e[1;34m--bash\e[0m'" ; fi
+install_theme() {
+  copy_theme;
+  check_rc_file_existence;
+  source_theme;
+  local CSHELL=${CONFIG_FILE//[.|rc]/""};
+  echo "$G sm-prompt correctly $STATUS for $CSHELL.";
+}
+
+if [ "$1" = "--zsh" ]; then
+  CONFIG_FILE=.zshrc;
+  THEME_FILE=sm.zsh-theme;
+  echo "$Y You've choose zsh shell"
+elif [ "$1" = "--bash" ]; then
+  CONFIG_FILE=.bashrc;
+  THEME_FILE=sm.bash-theme;
+  echo "$Y You've choose bash shell"
+else
+  CONFIG_FILE=.bashrc;
+  THEME_FILE=sm.bash-theme;
+  echo "$Y You've choose bash shell"
+fi
+
+install_theme;
