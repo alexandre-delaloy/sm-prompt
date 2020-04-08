@@ -1,65 +1,133 @@
-#!/bin/bash
+#!bin/bash
 
-# cl_default = \e[0m;
-# cl_red     = \e[31m;
-# cl_green   = \e[32m
-# cl_yellow  = \e[33m;
-# cl_blue    = \e[34m;
-# cl_magenta = \e[35m;
-# cl_cyan    = \e[36m;
+# prompt vars
+HOSTNAME="\h";
+USERNAME="\u";
+TIME="\A";
+WD="\w";
+BLANK="";
 
-# config
+# git vars
+GIT_BRANCH_NAME="";
+GIT_FILES_STATUS="";
 
-# 1: with smileys ; 0: without smileys
-SM_WITH_SMILEYS=1;
+GIT_ADDED_FILES=0;
+GIT_ADDED_FILES_PROMPT="";
+GIT_MODIFIED_FILES=0;
+GIT_MODIFIED_FILES_PROMPT="";
+GIT_DELETED_FILES=0;
+GIT_DELETED_FILES_PROMPT="";
+GIT_UNTRACKED_FILES=0;
+GIT_UNTRACKED_FILES_PROMPT="";
 
-# 2: with 2 lines ; else: default
-SM_PROMPT_LINES=3;
+# color fn()
+default() { echo "\e[0;00m$1\e[0m"; }
+red()     { echo "\e[0;31m$1\e[0m"; }
+green()   { echo "\e[0;32m$1\e[0m"; }
+yellow()  { echo "\e[0;33m$1\e[0m"; }
+blue()    { echo "\e[0;34m$1\e[0m"; }
+magenta() { echo "\e[0;35m$1\e[0m"; }
+cyan()    { echo "\e[0;36m$1\e[0m"; }
 
-# write 
-#   $(pictos_or_smileys 1 <0/1>) to use emojis
-#   $(pictos_or_smileys 0 <0/1>) to use pictos
-pictos_or_smileys () {
-    emojis=(" ✘" "[ಠ_ಠ]" " ✔︎" "[･‿･]");
-    if [ "$1" -eq 0 ] ; then echo "\e[31m${emojis[1 + $SM_WITH_SMILEYS]}\e[0m" ;
-    elif [ "$1" -eq 1 ] ; then echo "\e[32m${emojis[3 + $SM_WITH_SMILEYS]}\e[0m" ; fi
+# check number of files
+extractByWildCard() {
+  git status --porcelain 2>/dev/null| grep $1 | wc -l
 }
 
-# display red user if sudo is enabeled
-sudo_color() {
-    if [ "$UID" -eq 0 ] ; then echo "\e[31m" ; 
-    else echo "\e[34m" ; fi
+# delete spaces from a string
+deleteSpaces() {
+  local STRING=$1
+  echo ${STRING//[[:space:]]/$BLANK}
 }
 
-
-# custom my prompt
-SM_PREFIX="\e[33m╭─";
-SM_MIDFIX="\e[33m├─";
-SM_SUFFIX="\e[33m╰──→\e[0m ";
-SM_USER="$(sudo_color)\u\e[33m@\e[36m\h";
-SM_DIR="\e[35m\w\e[0m";
-SM_CLOCK="\e[36m\d\e[33m / \e[34m\t\e[0m \e[33m| \e[0m\s";
-
-sm_prompt() {
-    if [ $SM_PROMPT_LINES -eq 2 ] ; then
-        echo -e "$SM_PREFIX $SM_USER $SM_DIR 
-$SM_SUFFIX"
-    else echo -e "$SM_PREFIX $SM_USER 
-$SM_MIDFIX $SM_DIR
-$SM_SUFFIX" ; fi
+getBranchStatus() {
+  git diff --exit-code>/dev/null
+  # if there is no diff AND there isn't untracked files
+  if [[ 
+    $? -eq 0 && 
+    GIT_UNTRACKED_FILES -eq 0 &&
+    GIT_ADDED_FILES -eq 0
+  ]] ; then
+    # then branch is clean
+    GIT_BRANCH=$(green $GIT_BRANCH_NAME);
+  else
+    # else, the branch is dirty
+    GIT_BRANCH=$(red $GIT_BRANCH_NAME);
+  fi
 }
 
-PS1=$(sm_prompt);
+getNumberOfAddedFiles() {
+  local C1=$(extractByWildCard "^A");
+  local C2=$(extractByWildCard "^M");
+  local FILES=$(($C1 + $C2))
+  GIT_ADDED_FILES=$(deleteSpaces $FILES)
+  if [ $GIT_ADDED_FILES -ne 0 ] ; then
+    GIT_ADDED_FILES_PROMPT=$(green "$GIT_ADDED_FILES+");
+  else
+    GIT_ADDED_FILES_PROMPT="";
+  fi
+}
 
+getNumberOfModifiedFiles() {
+  local C1=$(extractByWildCard "^\sM");
+  local C2=$(extractByWildCard "^AM");
+  local C3=$(extractByWildCard "^MM");
+  local FILES=$(($C1 + $C2 + $C3))
+  GIT_MODIFIED_FILES=${FILES//[[:space:]]/$BLANK};
+  if [ $GIT_MODIFIED_FILES -ne 0 ] ; then
+    GIT_MODIFIED_FILES_PROMPT=$(yellow "$GIT_MODIFIED_FILES*");
+  else
+    GIT_MODIFIED_FILES_PROMPT="";
+  fi
+}
 
-# update vcs values
-ZSH_THEME_GIT_PROMPT_PREFIX="\e[33m git:\e[0m";
-ZSH_THEME_GIT_PROMPT_SUFFIX="";
-ZSH_THEME_GIT_PROMPT_DIRTY=$(pictos_or_smileys 0);
-ZSH_THEME_GIT_PROMPT_CLEAN=$(pictos_or_smileys 1);
-ZSH_THEME_GIT_PROMPT_ADDED="\e[32m●\e[0m ";
-ZSH_THEME_GIT_PROMPT_MODIFIED="\e[33m◎\e[0m ";
-ZSH_THEME_GIT_PROMPT_DELETED="\e[31m○\e[0m ";
-ZSH_THEME_GIT_PROMPT_RENAMED="$cl_blue‣\e[0m ";
-ZSH_THEME_GIT_PROMPT_UNTRACKED="$cl_magenta✦\e[0m ";
-ZSH_THEME_GIT_PROMPT_UNMERGED="$cl_magenta✖\e[0m ";
+getNumberOfDeletedFiles() {
+  local C1=$(extractByWildCard "^\sD");
+  local C2=$(extractByWildCard "^AD");
+  local FILES=$(($C1 + $C2))
+  GIT_DELETED_FILES=${FILES//[[:space:]]/$BLANK};
+  if [ $GIT_DELETED_FILES -ne 0 ] ; then
+    GIT_DELETED_FILES_PROMPT="$(red "$GIT_DELETED_FILES-")";
+  else
+    GIT_DELETED_FILES_PROMPT="";
+  fi
+}
+
+getNumberOfUntrackedFiles() {
+  local FILES=$(extractByWildCard "^??");
+  GIT_UNTRACKED_FILES=${FILES//[[:space:]]/$BLANK};
+  if [ $GIT_UNTRACKED_FILES -ne 0 ] ; then
+    GIT_UNTRACKED_FILES_PROMPT=$(blue "$GIT_UNTRACKED_FILES?");
+  else
+    GIT_UNTRACKED_FILES_PROMPT="";
+  fi
+}
+
+getNumberOfFiles() {
+  getNumberOfAddedFiles;
+  getNumberOfModifiedFiles;
+  getNumberOfDeletedFiles;
+  getNumberOfUntrackedFiles;
+}
+
+checkIfGitExist() {
+  if [ -d ".git" ] ; then
+    GIT_BRANCH_NAME="$(git branch 2>/dev/null | grep '^*' | colrm 1 2)";
+
+    getNumberOfFiles
+    getBranchStatus;
+
+    GIT="[$(magenta "git"):$GIT_BRANCH]";
+    GIT_FILES_STATUS="[$GIT_ADDED_FILES_PROMPT$GIT_MODIFIED_FILES_PROMPT$GIT_DELETED_FILES_PROMPT$GIT_UNTRACKED_FILES_PROMPT]";
+  else 
+    GIT="";
+    GIT_FILES_STATUS="";
+  fi
+}
+
+promptCommand() {
+  checkIfGitExist
+  PS1="┌[$(blue $USERNAME)@$(blue $HOSTNAME)][$(cyan $TIME)]\n├[$(yellow $WD)]$GIT\n└${GIT_FILES_STATUS}─□ ";
+}
+
+PROMPT_COMMAND="promptCommand"
