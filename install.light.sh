@@ -1,10 +1,8 @@
+#!/bin/bash
 
 R="\e[0;31m[?]\e[0m";
 G="\e[0;32m[v]\e[0m";
 Y="\e[0;33m[?]\e[0m";
-
-CONFIG_FILE=.zshrc;
-THEME_FILE=sm.zsh-theme;
 
 clear;
 
@@ -45,18 +43,18 @@ install_theme() {
   copy_theme;
   check_rc_file_existence;
   source_theme;
-  local SHELL=${CONFIG_FILE//[.|rc]/""};
-  echo "$G sm-prompt correctly $STATUS for $SHELL.";
+  local CSHELL=${CONFIG_FILE//[.|rc]/""};
+  echo "$G sm-prompt correctly $STATUS for $CSHELL.";
 }
 
 if [ "$1" = "--zsh" ]; then
-  CONFIG_FILE="$CONFIG_FILE";
-  THEME_FILE="$THEME_FILE";
+  CONFIG_FILE=.zshrc;
+  THEME_FILE=sm.zsh-theme;
   echo "$Y You've choose zsh shell"
 elif [ "$1" = "--bash" ]; then
-  CONFIG_FILE=".bashrc";
-  THEME_FILE="sm.bash-theme";
+  CONFIG_FILE=.bashrc;
+  THEME_FILE=sm.bash-theme;
   echo "$Y You've choose bash shell"
 fi
 
-install_theme ;
+install_theme;
