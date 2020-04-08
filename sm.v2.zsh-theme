@@ -67,6 +67,15 @@ getNumberOfModifiedFiles() {
   fi
 }
 
+getNumberOfDeletedFiles() {
+  GIT_DELETED_FILES=$(git status --porcelain 2>/dev/null| grep "^ D" | wc -l);
+  if [ $GIT_DELETED_FILES -ne 0 ] ; then
+    GIT_DELETED_FILES_PROMPT="$(red "${GIT_DELETED_FILES//[[:space:]]/$BLANK}-")";
+  else
+    GIT_DELETED_FILES_PROMPT="";
+  fi
+}
+
 getNumberOfUntrackedFiles() {
   GIT_UNTRACKED_FILES=$(git status --porcelain 2>/dev/null| grep "^??" | wc -l);
   if [ $GIT_UNTRACKED_FILES -ne 0 ] ; then
@@ -79,6 +88,7 @@ getNumberOfUntrackedFiles() {
 getNumberOfFiles() {
   getNumberOfAddedFiles;
   getNumberOfModifiedFiles;
+  getNumberOfDeletedFiles;
   getNumberOfUntrackedFiles;
 }
 
@@ -98,7 +108,6 @@ checkIfGitExist() {
     GIT_FILES_STATUS="";
   fi
 }
-
 
 promptCommand() {
   checkIfGitExist
