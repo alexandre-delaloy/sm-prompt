@@ -1,8 +1,8 @@
 #!/bin/bash
 
-R="\e[0;31m[!]\e[0m";
-G="\e[0;32m[v]\e[0m";
-Y="\e[0;33m[?]\e[0m";
+R="\e[0;31m[-]\e[0m";
+G="\e[0;32m[+]\e[0m";
+Y="\e[0;33m[!]\e[0m";
 
 FLAG="$1";
 RC_FILE=.zshrc;
@@ -41,7 +41,8 @@ check_rc_file_existence() {
 }
 
 source_theme() {
-  SOURCE="if [ -f $THEME_LOCATION$THEME_FILE ] ; then source $THEME_LOCATION$THEME_FILE ; fi";
+  SOURCE="
+if [ -f $THEME_LOCATION$THEME_FILE ] ; then source $THEME_LOCATION$THEME_FILE ; fi";
   source $THEME_LOCATION$THEME_FILE;
   if [ $1 != "OMZ" ]; then
     if [ $(cat ~/$RC_FILE | grep "source $THEME_LOCATION$THEME_FILE" | wc -l) -eq 0 ] ; then
