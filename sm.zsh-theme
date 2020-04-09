@@ -1,4 +1,4 @@
-#!bin/zsh
+#!/bin/zsh
 
 # prompt vars
 HOSTNAME="%m";

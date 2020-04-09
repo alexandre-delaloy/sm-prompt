@@ -23,6 +23,12 @@
 
 > This theme better fit with **Fira Code** font.
 
+- [Install](ii---install)
+  - [Bash](iii-bash)
+  - [Zsh](iii-zsh)
+    - [Oh My Zsh](iiii-oh-my-zsh)
+    - [Raw](iiii-raw)
+
 ## I - Install
 
 ```bash
@@ -31,7 +37,7 @@ source ./install.sh
 
 This [script](https://github.com/blyndusk/sm-prompt/blob/master/install.sh) will:
 - **select** your actual shell (`Bash|Zsh`) according to your **flag**
-- **copy** the theme file into your **user root** (`~`)
+- **copy** the theme file into your **user root** (`~`) or Oh My Zsh theme folder
 - **check** for a `.[ba|z]shrc` file to **source** the theme file
 - **replace** your actual prompt theme with the **sm** one
 
@@ -54,6 +60,15 @@ source ./install.sh --bash
 ```zsh
 source ./install.sh --zsh
 ```
+#### Oh My Zsh
+
+At the question `Using OH-MY-ZSH ? [Y/n]`, enter `Y`to install the the theme with **Oh My Zsh**.
+
+> Make sure to update the `$ZSH_THEME` variable in your `.zshrc` (`ZSH_THEME="sm"`)
+
+#### Raw
+
+At the question `Using OH-MY-ZSH ? [Y/n]`, enter `n`to install the the theme without Oh My Zsh
 
 ## IV - License
 
