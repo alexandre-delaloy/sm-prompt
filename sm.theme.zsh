@@ -127,9 +127,10 @@ checkIfGitExist() {
 
 promptCommand() {
   checkIfGitExist
-  PS1="┌[$(blue $USERNAME)@$(blue $HOSTNAME)][$(cyan $TIME)]
+  PS1="┌[$(blue $(whoami))@$(blue $HOSTNAME)][$(cyan $TIME)]
 ├[$(yellow $WD)]$GIT
 └${GIT_FILES_STATUS}─□ ";
+  whoami
 }
 
 PROMPT_COMMAND="promptCommand"
